@@ -1,36 +1,74 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class Main extends FileNotFoundException {
+public class Main {
+
     public static void main(String[] args) throws FileNotFoundException {
-        File file=new File("C:\\Users\\Admin\\OneDrive\\Рабочий стол\\students.txt");
-        Scanner scanner = new Scanner(file);
-        ArrayList<Student> students=new ArrayList<>();
-        while(scanner.hasNext()) {
-            Student student = new Student();
-            student.setName(scanner.next());
-            student.setSurname(scanner.next());
-            student.setAge(Integer.parseInt(scanner.next()));
-            student.setGender(Boolean.parseBoolean(scanner.next()));
-            students.add(student);
+        School school = new School();
+
+        Scanner studentScanner = new Scanner(new File("C:\\Users\\Admin\\IdeaProjects\\Assignment 1\\src\\students.txt"));
+        while (studentScanner.hasNextLine()) {
+            String line = studentScanner.nextLine().trim();
+            if (!line.isEmpty()) {
+                String[] studentData = line.split(",");
+                if (studentData.length >= 4) { // Ensure enough data is available
+                    String name = studentData[0];
+                    String surname = studentData[1];
+                    int age = Integer.parseInt(studentData[2]);
+                    boolean gender = Boolean.parseBoolean(studentData[3]);
+
+                    Student student = new Student(name, surname, age, gender);
+                    for (int i = 4; i < studentData.length; i++) {
+                        student.addGrade(Integer.parseInt(studentData[i]));
+                    }
+
+                    school.addMember(student);
+                }
+            }
         }
-        File file2 = new File("C:\\Users\\Admin\\OneDrive\\Рабочий стол\\teachers.txt");
-        Scanner scanner2 = new Scanner(file);
-        ArrayList<Teacher> teachers = new ArrayList<>();
+        studentScanner.close();
 
-        while(scanner.hasNext()) {
-            Teacher teacher = new Teacher();
-            teacher.setName(scanner.next());
-            teacher.setSurname(scanner.next());
-            teacher.setAge(Integer.parseInt(scanner.next()));
-            teacher.setGender(Boolean.parseBoolean(scanner.next()));
-            teachers.add(teacher);
+        Scanner teacherScanner = new Scanner(new File("C:\\Users\\Admin\\IdeaProjects\\Assignment 1\\src\\teachers.txt"));
+        while (teacherScanner.hasNextLine()) {
+            String line = teacherScanner.nextLine().trim();
+            if (!line.isEmpty()) {
+                String[] teacherData = line.split(",");
+                if (teacherData.length >= 7) { // Ensure enough data is available
+                    String name = teacherData[0];
+                    String surname = teacherData[1];
+                    int age = Integer.parseInt(teacherData[2]);
+                    boolean gender = Boolean.parseBoolean(teacherData[3]);
+                    String subject = teacherData[4];
+                    int yearsOfExperience = Integer.parseInt(teacherData[5]);
+                    int salary = Integer.parseInt(teacherData[6]);
+
+                    Teacher teacher = new Teacher(name, surname, age, gender, subject, yearsOfExperience, salary);
+                    school.addMember(teacher);
+                }
+            }
         }
-        System.out.println(students.toString());
+        teacherScanner.close();
 
+        for (Person member : school.members) {
+            if (member instanceof Student) {
+                Student student = (Student) member;
+                System.out.println(student.name + "'s GPA: " + student.calculateGPA());
+            }
+        }
 
+        for (Person member : school.members) {
+            if (member instanceof Teacher) {
+                Teacher teacher = (Teacher) member;
+                if (teacher.yearsOfExperience > 10) {
+                    teacher.giveRaise(10);
+                    System.out.println(teacher.name + "'s new salary: " + teacher.salary);
+                }
+            }
+        }
+
+        school.displayMembers();
     }
-
 }
