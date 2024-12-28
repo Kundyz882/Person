@@ -1,5 +1,5 @@
 public class Teacher extends Person {
-    private String subject;
+    String subject;
     int yearsOfExperience;
     int salary;
 
@@ -10,15 +10,13 @@ public class Teacher extends Person {
         this.salary = salary;
     }
 
-    public void giveRaise(double percentage) {
-        this.salary += this.salary * (percentage / 100);
+    public void giveRaise(int percentage) {
+        salary += salary * percentage / 100;
     }
 
     @Override
     public String toString() {
-        String genderStr = gender ? "Male" : "Female";
-        return "Hi, I am " + name + " " + surname +
-                ", a " + age + "-year-old " +
-                genderStr + ". I teach " + subject + ".";
+        return super.toString() + " I teach " + subject + ".";
     }
 }
+

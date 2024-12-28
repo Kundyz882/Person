@@ -13,13 +13,12 @@ public class Main {
         while (studentScanner.hasNextLine()) {
             String line = studentScanner.nextLine().trim();
             if (!line.isEmpty()) {
-                String[] studentData = line.split(",");
-                if (studentData.length >= 4) { // Ensure enough data is available
+                String[] studentData = line.split(" ");
+                if (studentData.length >= 4) {
                     String name = studentData[0];
                     String surname = studentData[1];
                     int age = Integer.parseInt(studentData[2]);
                     boolean gender = Boolean.parseBoolean(studentData[3]);
-
                     Student student = new Student(name, surname, age, gender);
                     for (int i = 4; i < studentData.length; i++) {
                         student.addGrade(Integer.parseInt(studentData[i]));
@@ -35,8 +34,8 @@ public class Main {
         while (teacherScanner.hasNextLine()) {
             String line = teacherScanner.nextLine().trim();
             if (!line.isEmpty()) {
-                String[] teacherData = line.split(",");
-                if (teacherData.length >= 7) { // Ensure enough data is available
+                String[] teacherData = line.split(" ");
+                if (teacherData.length >= 7) {
                     String name = teacherData[0];
                     String surname = teacherData[1];
                     int age = Integer.parseInt(teacherData[2]);

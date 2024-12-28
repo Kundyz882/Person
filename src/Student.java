@@ -1,15 +1,13 @@
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Student extends Person {
-    private int studentID;
-    private List<Integer> grades;
+    int studentID;
+    List<Integer> grades = new ArrayList<>();
 
     public Student(String name, String surname, int age, boolean gender) {
         super(name, surname, age, gender);
-        this.studentID = new Random().nextInt(9000) + 1000; // Random ID generation between 1000 and 9999
-        this.grades = new ArrayList<>();
+        this.studentID = (int) (Math.random() * 10000);
     }
 
     public void addGrade(int grade) {
@@ -17,19 +15,11 @@ public class Student extends Person {
     }
 
     public double calculateGPA() {
-        if (grades.isEmpty()) {
-            return 0;
-        }
-        int sum = 0;
-        for (int grade : grades) {
-            sum += grade;
-        }
-        return sum / (double) grades.size();
+        return grades.stream().mapToInt(Integer::intValue).average().orElse(0.0);
     }
 
     @Override
     public String toString() {
-        String genderStr = gender ? "Male" : "Female";
-        return "Hi, I am " + name + " " + surname + ", a " + age + "-year-old " + genderStr + ". I am a student with ID " + studentID + ".";
+        return super.toString() + " I am a student with ID " + studentID + ".";
     }
 }

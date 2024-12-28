@@ -2,7 +2,7 @@ public class Person {
     protected String name;
     protected String surname;
     protected int age;
-    protected boolean gender; // true for male, false for female
+    protected boolean gender;
 
     public Person(String name, String surname, int age, boolean gender) {
         this.name = name;
